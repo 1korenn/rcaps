@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AI Insights Generator</h1>
+    
+    <!-- Input Form -->
+    <label for="userInput">Enter your query:</label>
+    <input type="text" id="userInput" placeholder="Type here">
+    <button onclick="getAIInsights()">Submit</button>
+    
+    <!-- Output Display -->
+    <div class="output" id="output"></div>
+
+    <!-- JavaScript -->
+    <script>
+        async function getAIInsights() {
+            const input = document.getElementById('userInput').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/get-insights', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: input })
+                });
+                
+                const data = await response.json();
+                document.getElementById('output').textContent = "AI Insights: " + data.insight;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('output').textContent = "An error occurred.";
+            }
+        }
+    </script>
+
+</body>
+</html>
